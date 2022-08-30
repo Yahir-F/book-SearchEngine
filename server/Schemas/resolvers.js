@@ -16,11 +16,12 @@ const resolvers = {
         },
             Mutation: {
                 addUser: async(parent, {username, email, password}) => {
+                    const user = await User.create({username, email, password});
                     const token = signToken(user);
                     return{token, user};
                 },
                 login: async (parent, { email, password }) => {
-                    const profile = await User.findOne({ email });
+                    const user = await User.findOne({ email });
               
                     if (!user) {
                       throw new AuthenticationError('No profile with this email found!');
